@@ -16,8 +16,11 @@ NB: You can add more worker nodes in the inventory file by adding the worker_nod
 
 ### Step 2. Creating a Non-Root User on All Remote Servers
 
+ansible-playbook -i hosts /cluster/<dist-name>/initial.yml
+
+example in ubuntu
 ```bash
-ansible-playbook -i hosts /cluser<dist-name>/initial.yml
+ansible-playbook -i hosts cluster/ubuntu/initial.yml
 ```
 
 ### Step 3 — Installing Kubernetetes’ Dependencies
@@ -34,8 +37,11 @@ kubectl - a CLI tool used for issuing commands to the cluster through its API Se
 
 Create a file named /cluster/<dist-name>/kube-dependencies.yml in the workspace:
 
+ansible-playbook -i hosts cluster/<dist-name>/kube-dependencies.yml
+
+example with ubuntu
 ```bash
-ansible-playbook -i hosts /cluster/<dist-name>/kube-dependencies.yml
+ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml
 ```
 
 ### Step 4 — Setting Up the Control Plane Node
@@ -54,7 +60,7 @@ Kubernetes Ingresses offer you a flexible way of routing traffic from beyond you
 ### Step 5 — Setting Up the Worker Nodes
 
 ```bash
-ansible-playbook -i hosts /workers/workers.yml
+ansible-playbook -i hosts workers/workers.yml
 ```
 
 ### Step 6 — Verifying the Cluster
