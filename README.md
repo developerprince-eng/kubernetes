@@ -42,6 +42,15 @@ ansible-playbook -i hosts /cluster/<dist-name>/kube-dependencies.yml
 
 In this section it worth appreciating what is an ingress controller vs a loadbalancer. In exploring the differences I will then explain as to why ingress will be a very good choice in setting up our kubernetes CNI. We shall also speak about Healm and how it is a powerful tool to use in handling some kubernetes tooling, in our case we use helm in creating our nginx controller.
 
+#### Kubernetes Ingress Controller Vs LoadBalancer
+
+Kubernetes Ingresses offer you a flexible way of routing traffic from beyond your cluster to internal Kubernetes Services. Ingress Resources are objects in Kubernetes that define rules for routing HTTP and HTTPS traffic to Services. For these to work, an Ingress Controller must be present; its role is to implement the rules by accepting traffic (most likely via a Load Balancer) and routing it to the appropriate Services. Most Ingress Controllers use only one global Load Balancer for all Ingresses, which is more efficient than creating a Load Balancer per every Service you wish to expose.
+
+
+#### Helm
+
+[Helm](https://helm.sh/docs/intro/install/) is a package manager for managing Kubernetes. Using Helm Charts with your Kubernetes provides configurability and lifecycle management to update, rollback, and delete a Kubernetes application.
+
 ### Step 5 — Setting Up the Worker Nodes
 
 ```bash
@@ -50,7 +59,7 @@ ansible-playbook -i hosts /workers/workers.yml
 
 ### Step 6 — Verifying the Cluster
 
-A cluster can sometimes fail during setup because a node is down or network connectivity between the control plane and workers is not working correctly. Let’s verify the cluster and ensure that the nodes are operating correctly.
+A cluster can sometimes fail during setup because a node is down or network connectivity between the control plane and workers is not working correctly. Let's verify the cluster and ensure that the nodes are operating correctly.
 
 You will need to check the current state of the cluster from the control plane node to ensure that the nodes are ready. If you disconnected from the control plane node, you can SSH back into it with the following command:
 

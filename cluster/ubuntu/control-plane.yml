@@ -41,12 +41,12 @@
       shell: helm repo add nginx-stable https://helm.nginx.com/stable
       shell: helm repo update
 
-    - name: Installing via Helm Repository
+    - name: Update Helm Repository
       become: yes
       becomer_user: admin
-      shell: helm install nginx-controller-release nginx-stable/nginx-ingress
+      shell: helm repo update
 
-    - name: Installing using chart sources
+    - name: Installing using  nginx-ingress controller setting publicService to true
       become: yes
       become_user: admin
-      shell: helm install nginx-controller-release .
+      shell: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
