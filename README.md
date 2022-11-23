@@ -1,8 +1,8 @@
-# Kubenertes Cluster
+# Kubenertes Cluster Configuration
 
 ![Kubernetes](kubernetes-logo.jpg)
 
-This is project will help you setup kubernetes out of the box with help of a configuration tool called Ansible. This is an open source contribution by DeveloperPrince
+This is project will help you setup kubernetes out of the box with help of a configuration tool called [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html). This is an open source contribution by DeveloperPrince
 
 ![DeveloperPrince](logo.png)
 
