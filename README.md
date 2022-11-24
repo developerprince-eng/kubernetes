@@ -8,15 +8,31 @@ This is project will help you setup kubernetes out of the box with help of a con
 
 NB: Please take note it is usually recommended to make user of stable release of kubernetes however we shall make use kubernetes 1.22.0 instead of the latest release.
 
-### Step 1 — Setting Up the Workspace Directory and Ansible Inventory File
+### Step 1. Setting Up the Workspace Directory and Ansible Inventory File
 
 within the the /cluster/hosts file edit the ip addresses your control_plane ip and worker node ip's.
 
 NB: You can add more worker nodes in the inventory file by adding the worker_node with its corresponding ip addresses.
 
+In the event you are using AWS EC2 or accessing your hosts using pem key or file adjust the hosts file under the [all:vars] section and the following.
+
+```bash
+ansible_ssh_private_key_file=./<path>/<name>.pem
+```
+
+NB: Ensure all instance authenticate with the same PEM file
+
+Then in the even if the hosts are using username and password edit the [all:var] section and in the following.
+
+```bash
+ansible_connection=ssh
+ansible_user=<user>
+ansible_ssh_pass=<password>
+```
+
 ### Step 2. Creating a Non-Root User on All Remote Servers
 
-ansible-playbook -i hosts /cluster/<dist-name>/initial.yml
+ansible-playbook -i hosts /cluster/initial.yml
 
 example in ubuntu
 ```bash

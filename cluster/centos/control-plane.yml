@@ -1,0 +1,55 @@
+---
+- hosts: control_plane
+  become: yes
+  vars:
+    - packages: ["git", "nmap"]
+  tasks:
+    - name: initialize the cluster
+      shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_initialized.txt
+      args:
+        chdir: $HOME
+        creates: cluster_initialized.txt
+
+    - name: create .kube directory
+      become: yes
+      become_user: admin
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: copy admin.conf to user's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ubuntu/.kube/config
+        remote_src: yes
+        owner: admin
+
+    - name: Install Helm in Control plane
+      become: yes
+      become_user: admin
+      shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+      shell: chmod 700 get_helm.sh
+      shell: ./get_helm.sh
+
+    - name: Install git inorder to pull Nginx Ingress Controller
+      yum_repository:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ packages }}"
+
+    - name: Adding Nginx Controller Repository using Helm
+      become: yes
+      become_user: admin
+      shell: helm repo add nginx-stable https://helm.nginx.com/stable
+      shell: helm repo update
+
+    - name: Update Helm Repository
+      become: yes
+      becomer_user: admin
+      shell: helm repo update
+
+    - name: Installing using  nginx-ingress controller setting publicService to true
+      become: yes
+      become_user: admin
+      shell: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
