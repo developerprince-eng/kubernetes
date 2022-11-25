@@ -32,8 +32,8 @@
 
     - name: Install git inorder to pull Nginx Ingress Controller
       apt_repository:
-       name: git
-       state: present
+        name: git
+        state: present
 
     - name: Adding Nginx Controller Repository using Helm
       become: yes
