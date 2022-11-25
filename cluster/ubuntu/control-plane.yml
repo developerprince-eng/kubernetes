@@ -28,9 +28,7 @@
     - name: Install Helm in Control plane
       become: yes
       become_user: "{{user}}"
-      shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-      shell: chmod 700 get_helm.sh
-      shell: ./get_helm.sh
+      shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
 
     - name: Install git inorder to pull Nginx Ingress Controller
       apt_repository:
