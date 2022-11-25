@@ -27,8 +27,6 @@
         owner: "{{user}}"
 
     - name: Install Helm in Control plane
-      become: yes
-      become_user: "{{user}}"
       shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
 
     - name: Install git inorder to pull Nginx Ingress Controller
@@ -38,16 +36,10 @@
       with_items: "{{ packages }}"
 
     - name: Adding Nginx Controller Repository using Helm
-      become: yes
-      become_user: "{{user}}"
       shell: helm repo add nginx-stable https://helm.nginx.com/stable
 
     - name: Update Helm Repository
-      become: yes
-      becomer_user: "{{user}}"
       shell: helm repo update
 
     - name: Installing using  nginx-ingress controller setting publicService to true
-      become: yes
-      become_user: "{{user}}"
       shell: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
