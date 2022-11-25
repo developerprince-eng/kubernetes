@@ -41,7 +41,6 @@
       become: yes
       become_user: "{{user}}"
       shell: helm repo add nginx-stable https://helm.nginx.com/stable
-      shell: helm repo update
 
     - name: Update Helm Repository
       become: yes
