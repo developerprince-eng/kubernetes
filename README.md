@@ -37,7 +37,7 @@ ansible_ssh_pass=<password>
 Example
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml -e "user=prince"
+ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml -e "user=root"
 ```
 
 ### Step 2. Creating a Non-Root User on All Remote Servers
@@ -73,7 +73,7 @@ ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml
 or with vaible definition
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml -e "user=prince"
+ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml -e "user=root"
 ```
 
 ### Step 4. Setting Up the Control Plane Node
@@ -99,7 +99,7 @@ ansible-playbook -i hosts cluster/ubuntu/control-plane.yml
 or with vaible definition
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/control-plane.yml -e "user=prince"
+ansible-playbook -i hosts cluster/ubuntu/control-plane.yml -e "user=root"
 ```
 
 ### Step 5. Setting Up the Worker Nodes
@@ -111,7 +111,7 @@ ansible-playbook -i hosts workers/workers.yml
 or with variable definition
 
 ```bash
-ansible-playbook -i hosts workers/workers.yml -e "user=prince"
+ansible-playbook -i hosts workers/workers.yml -e "user=root"
 ```
 
 ### Step 6. Verifying the Cluster
