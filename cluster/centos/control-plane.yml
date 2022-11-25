@@ -3,6 +3,7 @@
   become: yes
   vars:
     - packages: ["git", "nmap"]
+    - user: "admin"
   tasks:
     - name: initialize the cluster
       shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_initialized.txt
@@ -12,7 +13,7 @@
 
     - name: create .kube directory
       become: yes
-      become_user: admin
+      become_user: "{{user}}"
       file:
         path: $HOME/.kube
         state: directory
@@ -23,11 +24,11 @@
         src: /etc/kubernetes/admin.conf
         dest: /home/ubuntu/.kube/config
         remote_src: yes
-        owner: admin
+        owner: "{{user}}"
 
     - name: Install Helm in Control plane
       become: yes
-      become_user: admin
+      become_user: "{{user}}"
       shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
       shell: chmod 700 get_helm.sh
       shell: ./get_helm.sh
@@ -40,16 +41,16 @@
 
     - name: Adding Nginx Controller Repository using Helm
       become: yes
-      become_user: admin
+      become_user: "{{user}}"
       shell: helm repo add nginx-stable https://helm.nginx.com/stable
       shell: helm repo update
 
     - name: Update Helm Repository
       become: yes
-      becomer_user: admin
+      becomer_user: "{{user}}"
       shell: helm repo update
 
     - name: Installing using  nginx-ingress controller setting publicService to true
       become: yes
-      become_user: admin
+      become_user: "{{user}}"
       shell: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
