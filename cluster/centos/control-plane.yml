@@ -13,21 +13,17 @@
         creates: cluster_initialized.txt
 
     - name: create .kube directory
-      shell:
-        cmd: mkdir -p $HOME/.kube
-
-    - name: copy admin.conf file to $HOME/.kube folder and name the file config
-      shell:
-        cmd: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-
-    - name: Change ownership for config file
-      shell:
-        cmd: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+      become: yes
+      become_user: "{{user}}"
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
 
     - name: copy admin.conf to user's kube config
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/{{user}}/.kube/config
+        dest: /home/ubuntu/.kube/config
         remote_src: yes
         owner: "{{user}}"
 
@@ -43,4 +39,4 @@
 
     - name: install Pod network
       shell:
-        cmd: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+        cmd: kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
