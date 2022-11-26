@@ -54,6 +54,6 @@
       shell:
         cmd: helm repo update
 
-    - name: Installing using  nginx-ingress controller setting publicService to true
+    - name: Installing  nginx-ingress controller
       shell:
-        cmd: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
+        cmd: helm install nginx-ingress ingress-nginx/ingress-nginx
