@@ -9,12 +9,16 @@
         cmd: kubeadm init
 
     - name: create .kube directory
-      become: yes
-      become_user: "{{user}}"
-      file:
-        path: $HOME/.kube
-        state: directory
-        mode: 0755
+      shell:
+        cmd: mkdir -p $HOME/.kube
+
+    - name: copy admin.conf file to $HOME/.kube folder and name the file config
+      shell:
+        cmd: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+    - name: Change ownership for config file
+      shell:
+        cmd: sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
     - name: copy admin.conf to user's kube config
       copy:
