@@ -35,7 +35,7 @@
 
     - name: Adding Nginx Controller Repository using Helm
       shell:
-        cmd:  helm repo add nginx-stable https://helm.nginx.com/stable
+        cmd:  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
     - name: Update Helm Repository
       shell:
