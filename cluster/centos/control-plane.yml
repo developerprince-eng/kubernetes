@@ -37,14 +37,9 @@
         state: present
       with_items: "{{ packages }}"
 
-    - name: Adding Nginx Controller Repository using Helm
+    - name: install Pod network
       shell:
-        cmd: helm repo add nginx-stable https://helm.nginx.com/stable
-
-    - name: Update Helm Repository
-      shell:
-        cmd: helm repo update
-
-    - name: Installing  nginx-ingress controller
-      shell:
-        cmd: helm install nginx-release nginx-stable/nginx-ingress
+        cmd: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
+      args:
+        chdir: $HOME
+        creates: pod_network_setup.txt
