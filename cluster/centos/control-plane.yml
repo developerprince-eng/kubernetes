@@ -6,7 +6,8 @@
     - user: "admin"
   tasks:
     - name: initialize the cluster
-      shell: kubeadm init >> cluster_initialized.txt
+      shell:
+        cmd: kubeadm init >> cluster_initialized.txt
       args:
         chdir: $HOME
         creates: cluster_initialized.txt
@@ -22,12 +23,13 @@
     - name: copy admin.conf to user's kube config
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: $HOME/.kube/config
+        dest: /home/"{{user}}"/.kube/config
         remote_src: yes
         owner: "{{user}}"
 
     - name: Install Helm in Control plane
-      shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
+      shell:
+        cmd:  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
 
     - name: Install git inorder to pull Nginx Ingress Controller
       yum_repository:
@@ -36,10 +38,13 @@
       with_items: "{{ packages }}"
 
     - name: Adding Nginx Controller Repository using Helm
-      shell: helm repo add nginx-stable https://helm.nginx.com/stable
+      shell:
+        cmd: helm repo add nginx-stable https://helm.nginx.com/stable
 
     - name: Update Helm Repository
-      shell: helm repo update
+      shell:
+        cmd: helm repo update
 
     - name: Installing using  nginx-ingress controller setting publicService to true
-      shell: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
+      shell:
+        cmd: helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
