@@ -24,6 +24,10 @@
        name: apt-transport-https
        state: present
 
+    - name: start Docker Service
+      shell:
+        cmd: sudo systemctl start docker
+
    - name: add Kubernetes apt-key
      apt_key:
        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
