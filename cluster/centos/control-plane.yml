@@ -27,15 +27,6 @@
         remote_src: yes
         owner: "{{user}}"
 
-    - name: install Pod network
-      become: yes
-      become_user: ubuntu
-      shell:
-        cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
-      args:
-        chdir: $HOME
-        creates: pod_network_setup.txt
-
     - name: Install Helm in Control plane
       shell:
         cmd:  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
@@ -48,7 +39,7 @@
 
     - name: Adding Nginx Controller Repository using Helm
       shell:
-        cmd: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+        cmd: helm repo add nginx-stable https://helm.nginx.com/stable
 
     - name: Update Helm Repository
       shell:
@@ -56,4 +47,4 @@
 
     - name: Installing  nginx-ingress controller
       shell:
-        cmd: helm install nginx-ingress ingress-nginx/ingress-nginx
+        cmd: helm install nginx-release nginx-stable/nginx-ingress
