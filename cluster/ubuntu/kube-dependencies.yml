@@ -17,16 +17,12 @@
      apt:
        name: docker.io
        state: present
-       update_cache: true
+      #  update_cache: true
 
    - name: install APT Transport HTTPS
      apt:
        name: apt-transport-https
        state: present
-
-    # - name: start Docker Service
-    #   shell:
-    #     cmd: sudo systemctl start docker
 
    - name: add Kubernetes apt-key
      apt_key:
