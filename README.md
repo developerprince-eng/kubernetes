@@ -84,6 +84,8 @@ In this section it worth appreciating what is an ingress controller vs a loadbal
 
 Kubernetes Ingresses offer you a flexible way of routing traffic from beyond your cluster to internal Kubernetes Services. Ingress Resources are objects in Kubernetes that define rules for routing HTTP and HTTPS traffic to Services. For these to work, an Ingress Controller must be present; its role is to implement the rules by accepting traffic (most likely via a Load Balancer) and routing it to the appropriate Services. Most Ingress Controllers use only one global Load Balancer for all Ingresses, which is more efficient than creating a Load Balancer per every Service you wish to expose.
 
+In the event you have a single cluster you may need to set up a global load balancer for your ingress controller, such [HAProxy] or [Varnish]. I recommend HAProxy.
+
 #### Helm
 
 [Helm](https://helm.sh/docs/intro/install/) is a package manager for managing Kubernetes. Using Helm Charts with your Kubernetes provides configurability and lifecycle management to update, rollback, and delete a Kubernetes application.
