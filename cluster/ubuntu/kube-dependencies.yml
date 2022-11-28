@@ -24,9 +24,9 @@
        name: apt-transport-https
        state: present
 
-    - name: start Docker Service
-      shell:
-        cmd: sudo systemctl start docker
+    # - name: start Docker Service
+    #   shell:
+    #     cmd: sudo systemctl start docker
 
    - name: add Kubernetes apt-key
      apt_key:
