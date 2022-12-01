@@ -7,6 +7,9 @@
     - name: initialize the cluster
       shell:
         cmd: kubeadm init
+      register: command_output
+    - debug:
+            var: command_output.stdout_lines
 
     - name: create .kube directory
       become: yes
@@ -32,6 +35,10 @@
         name: git
         state: present
         update_cache: yes
+
+    - name: Taint All Nodes
+      shell:
+        cmd: kubectl taint nodes --all node-role.kubernetes.io/master-
 
     - name: install Pod network
       shell:
