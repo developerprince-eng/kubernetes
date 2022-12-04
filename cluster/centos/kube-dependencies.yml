@@ -34,7 +34,6 @@
      when: ansible_facts['os_family'] == 'RedHat' and ansible_facts ['distribution_major_version'] == '7'
 
    - name: Start Docker Service
-       become: true
        shell: sudo systemctl start docker
 
    - name: add Kubernetes yum-key
