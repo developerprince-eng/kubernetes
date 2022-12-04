@@ -2,60 +2,60 @@
 - hosts: all
   become: yes
   tasks:
-    - name: create Docker config directory
-      file: path=/etc/docker state=directory
+   - name: create Docker config directory
+     file: path=/etc/docker state=directory
 
-    - name: changing Docker to systemd driver
-      copy:
+   - name: changing Docker to systemd driver
+     copy:
       dest: "/etc/docker/daemon.json"
       content: |
         {
         "exec-opts": ["native.cgroupdriver=systemd"]
         }
 
-    - name: install Docker
-      yum:
-        name: docker.io
-        state: present
-        update_cache: true
+   - name: install Docker
+     yum:
+       name: docker.io
+       state: present
+       update_cache: true
 
-    - name: Add repository
-      ansible.builtin.yum_repository:
-        name: epel
-        description: EPEL YUM repo
-        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+   - name: Add repository
+     yum_repository:
+       name: epel
+       description: EPEL YUM repo
+       baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
 
-    - name: Start Docker Service
-      shell:
-        cmd: sudo systemctl start docker
+   - name: Start Docker Service
+       shell:
+         cmd: sudo systemctl start docker
 
-    - name: add Kubernetes yum-key
-      yum_key:
-        url: https://packages.cloud.google.com/yum/doc/yum-key.gpg
-        state: present
+   - name: add Kubernetes yum-key
+       yum_key:
+         url: https://packages.cloud.google.com/yum/doc/yum-key.gpg
+         state: present
 
-    - name: add Kubernetes' yum repository
-      yum_repository:
-      repo: deb http://yum.kubernetes.io/ kubernetes-xenial main
-      state: present
-      filename: 'kubernetes'
+   - name: add Kubernetes' yum repository
+       yum_repository:
+       repo: deb http://yum.kubernetes.io/ kubernetes-xenial main
+       state: present
+       filename: 'kubernetes'
 
-    - name: install kubelet
-      yum:
-        name: kubelet=1.22.4-00
-        state: present
-        update_cache: true
+   - name: install kubelet
+       yum:
+         name: kubelet=1.22.4-00
+         state: present
+         update_cache: true
 
-    - name: install kubeadm
-      yum:
-        name: kubeadm=1.22.4-00
-        state: present
+   - name: install kubeadm
+       yum:
+         name: kubeadm=1.22.4-00
+         state: present
 
 - hosts: control_plane
   become: yes
   tasks:
-    - name: install kubectl
-      yum:
-        name: kubectl=1.22.4-00
-        state: present
-        force: yes
+   - name: install kubectl
+       yum:
+         name: kubectl=1.22.4-00
+         state: present
+         force: yes
