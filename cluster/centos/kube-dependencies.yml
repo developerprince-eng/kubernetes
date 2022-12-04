@@ -37,32 +37,32 @@
      shell: sudo systemctl start docker
 
    - name: add Kubernetes yum-key
-       yum_key:
-         url: https://packages.cloud.google.com/yum/doc/yum-key.gpg
-         state: present
+     yum_key:
+       url: https://packages.cloud.google.com/yum/doc/yum-key.gpg
+       state: present
 
    - name: add Kubernetes' yum repository
-       yum_repository:
+     yum_repository:
        repo: deb http://yum.kubernetes.io/ kubernetes-xenial main
        state: present
        filename: 'kubernetes'
 
    - name: install kubelet
-       yum:
-         name: kubelet=1.22.4-00
-         state: present
-         update_cache: true
+     yum:
+       name: kubelet=1.22.4-00
+       state: present
+       update_cache: true
 
    - name: install kubeadm
-       yum:
-         name: kubeadm=1.22.4-00
-         state: present
+     yum:
+       name: kubeadm=1.22.4-00
+       state: present
 
 - hosts: control_plane
   become: yes
   tasks:
    - name: install kubectl
-       yum:
-         name: kubectl=1.22.4-00
-         state: present
-         force: yes
+     yum:
+       name: kubectl=1.22.4-00
+       state: present
+       force: yes
