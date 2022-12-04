@@ -23,6 +23,7 @@
      yum:
        name: epel-release
        state: latest
+     become: True
 
    - name: Start Docker Service
        shell:
