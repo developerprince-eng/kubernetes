@@ -23,19 +23,19 @@
      dnf:
        name: epel-release
        state: latest
-     become: True
+     become: true
      when: ansible_facts['os_family'] == 'RedHat' and ansible_facts ['distribution_major_version'] == '8'
 
    - name: Enable EPEL Repository
      yum:
        name: epel-release
        state: latest
-     become: True
+     become: true
      when: ansible_facts['os_family'] == 'RedHat' and ansible_facts ['distribution_major_version'] == '7'
 
    - name: Start Docker Service
-       shell:
-         cmd: sudo systemctl start docker
+       become: true
+       shell: sudo systemctl start docker
 
    - name: add Kubernetes yum-key
        yum_key:
