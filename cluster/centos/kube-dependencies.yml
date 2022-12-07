@@ -91,7 +91,7 @@
   #       cmd: sudo systemctl start docker
 
    - name: create Docker kubernetes repo file
-     file: path=/etc/yum.repos.d/kubernetes.repo state=file
+     file: path=/etc/yum.repos.d/ state=directory
 
    - name: Add repo in kubernetes repo file
      copy:
