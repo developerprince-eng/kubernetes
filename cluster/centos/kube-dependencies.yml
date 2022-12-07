@@ -52,7 +52,7 @@
 
    - name: Install Docker
      package:
-       name: docker
+       name: docker-ce
        state: latest
      become: yes
 
