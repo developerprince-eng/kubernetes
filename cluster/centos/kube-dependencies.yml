@@ -37,16 +37,16 @@
   #    shell:
   #       cmd: sudo systemctl start docker
 
-   - name: add Kubernetes yum-key
-     yum_key:
-       url: https://packages.cloud.google.com/yum/doc/yum-key.gpg
-       state: present
-
-   - name: add Kubernetes' yum repository
-     yum_repository:
-       repo: deb http://yum.kubernetes.io/ kubernetes-xenial main
-       state: present
-       filename: 'kubernetes'
+   - name: write repo information in kube repo file
+     blockinfile:
+       path: "/etc/yum.repos.d/kubernetes.repo"
+       block: |
+             [kubernetes]
+             name=Kubernetes
+             enabled=1
+             gpgcheck=1
+             repo_gpgcheck=1
+             gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 
    - name: install kubelet
      yum:
