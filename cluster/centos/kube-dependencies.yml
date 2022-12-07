@@ -1,124 +1,66 @@
----
 - hosts: all
   become: yes
-  vars:
-      - user: "admin"
   tasks:
-   - name: create Docker config directory
-     file: path=/etc/docker state=directory
-
-   - name: changing Docker to systemd driver
-     copy:
-      dest: "/etc/docker/daemon.json"
-      content: |
-        {
-        "exec-opts": ["native.cgroupdriver=systemd"]
-        }
-
-   - name: Install yum utils
+   - name: install Docker
      yum:
-       name: yum-utils
-       state: latest
-
-   - name: Install device-mapper-persistent-data
-     yum:
-       name: device-mapper-persistent-data
-       state: latest
-
-   - name: Install lvm2
-     yum:
-       name: lvm2
-       state: latest
-
-   - name: Add Docker repo
-     get_url:
-       url: https://download.docker.com/linux/centos/docker-ce.repo
-       dest: /etc/yum.repos.d/docer-ce.repo
-     become: yes
-
-   - name: Enable Docker Edge repo
-     ini_file:
-       dest: /etc/yum.repos.d/docer-ce.repo
-       section: 'docker-ce-edge'
-       option: enabled
-       value: 0
-     become: yes
-
-   - name: Enable Docker Test repo
-     ini_file:
-       dest: /etc/yum.repos.d/docer-ce.repo
-       section: 'docker-ce-test'
-       option: enabled
-       value: 0
-     become: yes
-
-   - name: Install Docker
-     package:
-       name: docker-ce
-       state: latest
-     become: yes
-
-   - name: Start Docker service
-     service:
        name: docker
-       state: started
-       enabled: yes
-     become: yes
-
-   - name: Add user "{{user}}" to docker group
-     user:
-       name: "{{user}}"
-       groups: docker
-       append: yes
-     become: yes
-
-   - name: Enable EPEL Repository
-     dnf:
-       name: epel-release
-       state: latest
-     become: true
-     when: ansible_facts['os_family'] == 'RedHat' and ansible_facts ['distribution_major_version'] == '8'
-
-   - name: Enable EPEL Repository
-     yum:
-       name: epel-release
-       state: latest
-     become: true
-     when: ansible_facts['os_family'] == 'RedHat' and ansible_facts ['distribution_major_version'] == '7'
-
-
-   - name: create Docker kubernetes repo directory
-     file: path=/etc/yum.repos.d/ state=directory
-
-   - name: Add repo in kubernetes repo file
-     copy:
-      dest: "/etc/yum.repos.d/kubernetes.repo"
-      content: |
-        [kubernetes]
-        name=Kubernetes
-        baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch
-        enabled=1
-        gpgcheck=1
-        repo_gpgcheck=1
-        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-        exclude=kubelet kubeadm kubectl
-
-   - name: install kubelet
-     yum:
-       name: kubelet=1.22.4-00
        state: present
        update_cache: true
 
+   - name: start Docker
+     service:
+       name: docker
+       state: started
+
+   - name: disable SELinux
+     command: setenforce 0
+
+   - name: disable SELinux on reboot
+     selinux:
+       state: disabled
+
+   - name: ensure net.bridge.bridge-nf-call-ip6tables is set to 1
+     sysctl:
+      name: net.bridge.bridge-nf-call-ip6tables
+      value: 1
+      state: present
+
+   - name: ensure net.bridge.bridge-nf-call-iptables is set to 1
+     sysctl:
+      name: net.bridge.bridge-nf-call-iptables
+      value: 1
+      state: present
+
+   - name: add Kubernetes' YUM repository
+     yum_repository:
+      name: Kubernetes
+      description: Kubernetes YUM repository
+      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+      gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      gpgcheck: yes
+
+   - name: install kubelet
+     yum:
+        name: kubelet-1.22.4
+        state: present
+        update_cache: true
+
    - name: install kubeadm
      yum:
-       name: kubeadm=1.22.4-00
-       state: present
+        name: kubeadm-1.22.4
+        state: present
 
-- hosts: control_plane
+   - name: start kubelet
+     service:
+       name: kubelet
+       enabled: yes
+       state: started
+
+- hosts: master
   become: yes
   tasks:
    - name: install kubectl
      yum:
-       name: kubectl=1.22.4-00
-       state: present
-       force: yes
+        name: kubectl-1.22.4
+        state: present
+        allow_downgrade: yes
