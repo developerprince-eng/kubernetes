@@ -6,8 +6,7 @@
     - user: "admin"
   tasks:
     - name: initialize the cluster
-      shell:
-        cmd: kubeadm init >> cluster_initialized.txt
+      shell: kubeadm init >> cluster_initialized.txt
       args:
         chdir: $HOME
         creates: cluster_initialized.txt
