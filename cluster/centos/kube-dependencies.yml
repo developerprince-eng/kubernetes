@@ -34,11 +34,33 @@
        dest: /etc/yum.repos.d/docer-ce.repo
      become: yes
 
+   - name: Enable Docker Edge repo
+     ini_file:
+       dest: /etc/yum.repos.d/docer-ce.repo
+       section: 'docker-ce-edge'
+       option: enabled
+       value: 0
+     become: yes
+
+   - name: Enable Docker Test repo
+     ini_file:
+       dest: /etc/yum.repos.d/docer-ce.repo
+       section: 'docker-ce-test'
+       option: enabled
+       value: 0
+     become: yes
+
    - name: Install Docker
      package:
-       name: docker
+       name: docker-ce
        state: latest
-       nobest: true
+     become: yes
+
+   - name: Start Docker service
+     service:
+       name: docker
+       state: started
+       enabled: yes
      become: yes
 
 
