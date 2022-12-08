@@ -27,19 +27,24 @@
 
 
     - name: Install Helm in Control plane
-      shell:
-        cmd:  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
+      shell: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
 
-    - name: Install git inorder to pull Nginx Ingress Controller
-      yum_repository:
-        name: "{{ item }}"
-        state: present
-      with_items: "{{ packages }}"
+
+   - name: Install Nginx
+     package:
+       name: nginx
+       state: latest
+     become: yes
+
+   - name: Install git
+     package:
+       name: git
+       state: latest
+     become: yes
+
 
     - name: Taint All Nodes
-      shell:
-        cmd: kubectl taint nodes --all node-role.kubernetes.io/master-
+      shell: kubectl taint nodes --all node-role.kubernetes.io/master-
 
     - name: install Pod network
-      shell:
-        cmd: kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+      shell: kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
