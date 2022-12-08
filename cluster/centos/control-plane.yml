@@ -24,7 +24,7 @@
         src: /etc/kubernetes/admin.conf
         dest: /home/{{user}}/.kube/config
         remote_src: yes
-        owner: "{{user}}"
+
 
     - name: Install Helm in Control plane
       shell:
