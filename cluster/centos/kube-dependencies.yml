@@ -28,10 +28,19 @@
        name: lvm2
        state: latest
 
-   - name: Install the Docker
+   - name: Add repository for Docker CE
+     yum_repository:
+       name: Docker CE
+       description: Docker CE YUM repo
+       baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+
+
+   - name: Install Docker
      dnf:
-       name: 'https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm'
-       state: present
+       name: docker
+       state: latest
+       nobest: true
+
 
    - name: Start Docker service
      service:
