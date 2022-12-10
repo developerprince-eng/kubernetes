@@ -1,0 +1,36 @@
+- hosts: all
+  become: yes
+  vars:
+      - user: "admin"
+  tasks:
+   - name: Install yum utils
+     yum:
+       name: yum-utils
+       state: latest
+
+   - name: Install device-mapper-persistent-data
+     yum:
+       name: device-mapper-persistent-data
+       state: latest
+
+   - name: Install lvm2
+     yum:
+       name: lvm2
+       state: latest
+
+   - name: Add Kong repo
+     get_url:
+       url: https://download.konghq.com/gateway-3.x-rhel-%{rhel}/config.repo
+       dest: /etc/yum.repos.d/kong.repo
+     become: yes
+
+   - name: Install Kong
+     package:
+       name: kong-3.0.1
+       state: present
+       nobest: true
+     become: yes
+     
+
+
+
