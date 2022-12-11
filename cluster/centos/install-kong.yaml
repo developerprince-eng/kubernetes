@@ -20,7 +20,7 @@
 
    - name: Add Kong repo
      get_url:
-       url: https://download.konghq.com/gateway-3.x-rhel-%{rhel}/config.repo
+       url: https://download.konghq.com/gateway-3.x-centos-7/config.repo
        dest: /etc/yum.repos.d/kong.repo
      become: yes
 
@@ -30,7 +30,7 @@
        state: present
        nobest: true
      become: yes
-     
+
 
 
 
