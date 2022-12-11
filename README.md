@@ -37,17 +37,17 @@ ansible_ssh_pass=<password>
 Example
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml -e "user=root"
+ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yaml -e "user=root"
 ```
 
 ### Step 2. Creating a Non-Root User on All Remote Servers
 
-ansible-playbook -i hosts /cluster/initial.yml
+ansible-playbook -i hosts /cluster/initial.yaml
 
 example in ubuntu
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/initial.yml
+ansible-playbook -i hosts cluster/ubuntu/initial.yaml
 ```
 
 ### Step 3. Installing Kubernetetes’ Dependencies
@@ -62,18 +62,18 @@ Docker - a container runtime. It is the component that runs your containers. Kub
 
 **kubectl** - *a CLI tool used for issuing commands to the cluster through its API Server*.
 
-ansible-playbook -i hosts cluster/[dist]/kube-dependencies.yml
+ansible-playbook -i hosts cluster/[dist]/kube-dependencies.yaml
 
 example with ubuntu
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml
+ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yaml
 ```
 
 or with vaible definition
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yml -e "user=root"
+ansible-playbook -i hosts cluster/ubuntu/kube-dependencies.yaml -e "user=root"
 ```
 
 ### Step 4. Setting Up the Control Plane Node
@@ -95,25 +95,25 @@ In the event you have a single cluster you may need to set up a global load bala
 example with ubuntu
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/control-plane.yml
+ansible-playbook -i hosts cluster/ubuntu/control-plane.yaml
 ```
 
 or with vaible definition
 
 ```bash
-ansible-playbook -i hosts cluster/ubuntu/control-plane.yml -e "user=root"
+ansible-playbook -i hosts cluster/ubuntu/control-plane.yaml -e "user=root"
 ```
 
 ### Step 5. Setting Up the Worker Nodes
 
 ```bash
-ansible-playbook -i hosts workers/workers.yml
+ansible-playbook -i hosts workers/workers.yaml
 ```
 
 or with variable definition
 
 ```bash
-ansible-playbook -i hosts workers/workers.yml -e "user=root"
+ansible-playbook -i hosts workers/workers.yaml -e "user=root"
 ```
 
 ### Step 6. Verifying the Cluster

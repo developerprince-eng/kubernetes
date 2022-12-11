@@ -1,0 +1,15 @@
+- hosts: all
+  become: yes
+  vars:
+      - user: "admin"
+  tasks:
+  - name: Install Epel-Release
+    dnf:
+      name: epel-release
+      state: present
+
+  - name: Install Htop
+    dnf:
+      name: htop
+      state: present
+
