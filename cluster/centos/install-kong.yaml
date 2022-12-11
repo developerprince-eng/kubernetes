@@ -50,12 +50,12 @@
       dest: "/etc/kong/kong.conf"
       content: |
           database = postgres
-          pg_host = "{{pg_kong_host}}"
-          pg_port = "{{pg_kong_port}}"
+          pg_host = {{pg_kong_host}}
+          pg_port = {{pg_kong_port}}
           pg_timeout = 5000
-          pg_user = "{{pg_kong_user}}"
-          pg_password = "{{pg_kong_password}}"
-          pg_database = "{{pg_kong_database}}"
+          pg_user = {{pg_kong_user}}
+          pg_password = {{pg_kong_password}}
+          pg_database = {{pg_kong_database}}
 
    - name: Set ulimit to 4096 temporarily
      shell: sudo ulimit -n 4096
