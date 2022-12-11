@@ -14,3 +14,23 @@
   - name: Start nginx and enabled
     shell: sudo systemctl enable nginx && sudo systemctl start nginx
 
+  - name: Install Epel-Release
+    dnf:
+      name: epel-release
+      state: present
+
+
+  - name: Install Certbot
+    dnf:
+      name: certbot
+      state: present
+
+  - name: Install Nginx module for Certbot
+    dnf:
+      name: python3-certbot-nginx
+      state: present
+
+  - name: Install Mod_SSL
+    dnf:
+      name: mod_ssl
+      state: present
