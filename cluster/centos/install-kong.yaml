@@ -6,6 +6,7 @@
       - pg_kong_password: :"password"
       - pg_kong_user: "postgres"
       - pg_kong_port: "5432"
+      - pg_kong_database: "kong"
   tasks:
    - name: Install yum utils
      yum:
@@ -54,7 +55,7 @@
           pg_timeout = 5000
           pg_user = "{{pg_kong_user}}"
           pg_password = "{{pg_kong_password}}"
-          pg_database = kong
+          pg_database = "{{pg_kong_database}}"
 
    - name: Set ulimit to 4096 temporarily
      shell: sudo ulimit -n 4096
