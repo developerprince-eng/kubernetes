@@ -55,6 +55,9 @@
           pg_password = "{{pg_kong_password}}"
           pg_database = kong
 
+   - name: Set ulimit to 4096 temporarily
+     shell: sudo ulimit -n 4096
+
    - name: Kong Migration
      shell: kong migrations up -c /etc/kong/kong.conf
      register: kong_status_migration
@@ -63,9 +66,6 @@
      debug:
        var: kong_status_migration
        verbosity: 2
-
-   - name: Set ulimit to 4096 temporarily
-     shell: sudo ulimit -n 4096
 
    - name: Start Kong
      shell: kong start -c /etc/kong/kong.conf
