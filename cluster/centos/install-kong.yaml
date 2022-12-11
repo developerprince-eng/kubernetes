@@ -1,7 +1,9 @@
-- hosts: all
+- hosts: control_plane
   become: yes
   vars:
       - user: "admin"
+      - pg-kong-host: "127.0.0.1"
+      - pg-pg-password: :"password"
   tasks:
    - name: Install yum utils
      yum:
@@ -30,6 +32,25 @@
        state: present
        nobest: true
      become: yes
+
+    - name: Check Kong if installed succesfully
+      shell: kong roar
+      register: kong_status
+      debug:
+       var: kong_status
+       verbosity: 2
+
+   - name: Added Kong configuration
+     copy:
+      dest: "/etc/kong/kong.conf"
+      content: |
+          database = postgres
+          pg_host = "{{pg-kong-host}}"
+          pg_port = 5432
+          pg_timeout = 5000
+          pg_user = kong
+          pg_password = "{{pg-pg-password}}"
+          pg_database = kong
 
 
 
