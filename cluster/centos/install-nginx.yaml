@@ -19,7 +19,7 @@
     notify:
       - start nginx
 
-  - name: Start nginx
+  - name: Start nginx and enabled
     systemd:
       name: nginx
       state: started
