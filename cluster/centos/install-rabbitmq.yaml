@@ -1,9 +1,10 @@
 - hosts: all
   become: yes
   vars:
-      - user: "admin"   
-   - name: Add RabbitMQ Repository
-     copy:
+      - user: "admin"
+  tasks:
+    - name: Add RabbitMQ Repository
+      copy:
       dest: "/etc/yum.repos.d/rabbitmq.repo"
       content: |
             # In /etc/yum.repos.d/rabbitmq.repo
@@ -66,38 +67,38 @@
             sslcacert=/etc/pki/tls/certs/ca-bundle.crt
             metadata_expire=300
 
-   - name: Install Socat
-     yum:
-       name: socat 
-       state: latest
-       cacheonly: true
-       disablerepo: "*"
-       enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
-       
-   - name: Install logrotate
-     yum:
-       name: logrotate 
-       state: latest
-       cacheonly: true
-       disablerepo: "*"
-       enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
+    - name: Install Socat
+      yum:
+        name: socat
+        state: latest
+        cacheonly: true
+        disablerepo: "*"
+        enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
 
-   - name: Install Erlang
-     yum:
-       name: erlang 
-       state: present
-       
-   - name: Install RabbitMQ Server
-     yum:
-       name: rabbitmq-server 
-       state: present
-       
-   - name: Start RabbitMQ Server service
-     service:
-       name: rabbitmq-server
-       state: started
-       enabled: yes
-     become: yes
-     
-   - name: Enable RabbitMQ Dashboard
-     shell: sudo rabbitmq-plugins enable rabbitmq_management
+    - name: Install logrotate
+      yum:
+        name: logrotate
+        state: latest
+        cacheonly: true
+        disablerepo: "*"
+        enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
+
+    - name: Install Erlang
+      yum:
+        name: erlang
+        state: present
+
+    - name: Install RabbitMQ Server
+      yum:
+        name: rabbitmq-server
+        state: present
+
+    - name: Start RabbitMQ Server service
+      service:
+        name: rabbitmq-server
+        state: started
+        enabled: yes
+      become: yes
+
+    - name: Enable RabbitMQ Dashboard
+      shell: sudo rabbitmq-plugins enable rabbitmq_management
