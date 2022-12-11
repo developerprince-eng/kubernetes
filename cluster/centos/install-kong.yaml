@@ -5,6 +5,7 @@
       - pg_kong_host: "127.0.0.1"
       - pg_kong_password: :"password"
       - pg_kong_user: "postgres"
+      - pg_kong_port: "5432"
   tasks:
    - name: Install yum utils
      yum:
@@ -49,7 +50,7 @@
       content: |
           database = postgres
           pg_host = "{{pg_kong_host}}"
-          pg_port = 5432
+          pg_port = "{{pg_kong_port}}"
           pg_timeout = 5000
           pg_user = "{{pg_kong_user}}"
           pg_password = "{{pg_kong_password}}"
