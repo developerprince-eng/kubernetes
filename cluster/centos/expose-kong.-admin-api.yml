@@ -1,0 +1,16 @@
+- hosts: control_plane
+  become: yes
+  vars:
+      - user: "admin"
+  tasks:
+   - name: Add Admin Route
+     shell: curl -X POST http://localhost:8001/services --data "host=localhost" --data "port=8001" --data "name=admin"
+     register: kong_admin_route
+
+   - debug: msg="{{ kong_admin_route.stdout }}"
+
+   - name: Add Admin Path for Admin Route
+     shell: curl -X POST http://localhost:8001/services/admin/routes --data "paths[]=/admin"
+     register: kong_admin_path
+
+   - debug: msg="{{ kong_admin_path.stdout }}"
