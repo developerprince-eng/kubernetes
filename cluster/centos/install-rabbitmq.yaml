@@ -3,102 +3,102 @@
   vars:
       - user: "admin"
   tasks:
-    - name: Add RabbitMQ Repository
-      copy:
-      dest: "/etc/yum.repos.d/rabbitmq.repo"
-      content: |
-            # In /etc/yum.repos.d/rabbitmq.repo
+  - name: Add RabbitMQ Repository
+    copy:
+    dest: "/etc/yum.repos.d/rabbitmq.repo"
+    content: |
+          # In /etc/yum.repos.d/rabbitmq.repo
 
-            ##
-            ## Zero dependency Erlang
-            ##
+          ##
+          ## Zero dependency Erlang
+          ##
 
-            [rabbitmq_erlang]
-            name=rabbitmq_erlang
-            baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/$basearch
-            repo_gpgcheck=1
-            gpgcheck=1
-            enabled=1
-            # PackageCloud's repository key and RabbitMQ package signing key
-            gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
-                   https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-            sslverify=1
-            sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-            metadata_expire=300
+          [rabbitmq_erlang]
+          name=rabbitmq_erlang
+          baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/$basearch
+          repo_gpgcheck=1
+          gpgcheck=1
+          enabled=1
+          # PackageCloud's repository key and RabbitMQ package signing key
+          gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
+                  https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire=300
 
-            [rabbitmq_erlang-source]
-            name=rabbitmq_erlang-source
-            baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/SRPMS
-            repo_gpgcheck=1
-            gpgcheck=0
-            enabled=1
-            # PackageCloud's repository key and RabbitMQ package signing key
-            gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
-                   https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-            sslverify=1
-            sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-            metadata_expire=300
+          [rabbitmq_erlang-source]
+          name=rabbitmq_erlang-source
+          baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/SRPMS
+          repo_gpgcheck=1
+          gpgcheck=0
+          enabled=1
+          # PackageCloud's repository key and RabbitMQ package signing key
+          gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
+                  https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire=300
 
-            ##
-            ## RabbitMQ server
-            ##
+          ##
+          ## RabbitMQ server
+          ##
 
-            [rabbitmq_server]
-            name=rabbitmq_server
-            baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/$basearch
-            repo_gpgcheck=1
-            gpgcheck=0
-            enabled=1
-            # PackageCloud's repository key and RabbitMQ package signing key
-            gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-                   https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-            sslverify=1
-            sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-            metadata_expire=300
+          [rabbitmq_server]
+          name=rabbitmq_server
+          baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/$basearch
+          repo_gpgcheck=1
+          gpgcheck=0
+          enabled=1
+          # PackageCloud's repository key and RabbitMQ package signing key
+          gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
+                  https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire=300
 
-            [rabbitmq_server-source]
-            name=rabbitmq_server-source
-            baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/SRPMS
-            repo_gpgcheck=1
-            gpgcheck=0
-            enabled=1
-            gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-            sslverify=1
-            sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-            metadata_expire=300
+          [rabbitmq_server-source]
+          name=rabbitmq_server-source
+          baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/SRPMS
+          repo_gpgcheck=1
+          gpgcheck=0
+          enabled=1
+          gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire=300
 
-    - name: Install Socat
-      yum:
-        name: socat
-        state: latest
-        cacheonly: true
-        disablerepo: "*"
-        enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
+  - name: Install Socat
+    yum:
+      name: socat
+      state: latest
+      cacheonly: true
+      disablerepo: "*"
+      enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
 
-    - name: Install logrotate
-      yum:
-        name: logrotate
-        state: latest
-        cacheonly: true
-        disablerepo: "*"
-        enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
+  - name: Install logrotate
+    yum:
+      name: logrotate
+      state: latest
+      cacheonly: true
+      disablerepo: "*"
+      enablerepo: ["rabbitmq_erlang-noarch","rabbitmq_server-noarch"]
 
-    - name: Install Erlang
-      yum:
-        name: erlang
-        state: present
+  - name: Install Erlang
+    yum:
+      name: erlang
+      state: present
 
-    - name: Install RabbitMQ Server
-      yum:
-        name: rabbitmq-server
-        state: present
+  - name: Install RabbitMQ Server
+    yum:
+      name: rabbitmq-server
+      state: present
 
-    - name: Start RabbitMQ Server service
-      service:
-        name: rabbitmq-server
-        state: started
-        enabled: yes
-      become: yes
+  - name: Start RabbitMQ Server service
+    service:
+      name: rabbitmq-server
+      state: started
+      enabled: yes
+    become: yes
 
-    - name: Enable RabbitMQ Dashboard
-      shell: sudo rabbitmq-plugins enable rabbitmq_management
+  - name: Enable RabbitMQ Dashboard
+    shell: sudo rabbitmq-plugins enable rabbitmq_management
