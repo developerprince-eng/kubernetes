@@ -10,3 +10,19 @@
       update_cache: yes
     notify:
       - start nginx
+
+  - name: Start nginx web server
+    shell:
+      name: nginx
+      state: installed
+      update_cache: yes
+    notify:
+      - start nginx
+
+  - name: Start nginx
+    systemd:
+      name: nginx
+      state: started
+      enabled: yes
+    become: yes
+    become_user: {{user}}
