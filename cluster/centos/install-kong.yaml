@@ -2,9 +2,9 @@
   become: yes
   vars:
       - user: "admin"
-      - pg-kong-host: "127.0.0.1"
-      - pg-kong-password: :"password"
-      - pg-kong-user: "postgres"
+      - pg_kong_host: "127.0.0.1"
+      - pg_kong_password: :"password"
+      - pg_kong_user: "postgres"
   tasks:
    - name: Install yum utils
      yum:
@@ -46,11 +46,11 @@
       dest: "/etc/kong/kong.conf"
       content: |
           database = postgres
-          pg_host = "{{pg-kong-host}}"
+          pg_host = "{{pg_kong_host}}"
           pg_port = 5432
           pg_timeout = 5000
-          pg_user = "{{pg-kong-user}}"
-          pg_password = "{{pg-kong-password}}"
+          pg_user = "{{pg_kong_user}}"
+          pg_password = "{{pg_kong_password}}"
           pg_database = kong
 
    - name: Kong Migration
