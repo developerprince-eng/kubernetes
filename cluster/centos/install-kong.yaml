@@ -56,7 +56,7 @@
           pg_database = kong
 
    - name: Kong Migration
-     shell: sudo kong migrations up -c /etc/kong/kong.conf
+     shell: kong migrations up -c /etc/kong/kong.conf
      register: kong_status_migration
 
    - name: Print out Kong Migration
@@ -68,7 +68,7 @@
      shell: sudo ulimit -n 4096
 
    - name: Start Kong
-     shell: sudo kong start -c /etc/kong/kong.conf
+     shell: kong start -c /etc/kong/kong.conf
 
    - name: Print out Success message
      debug:
