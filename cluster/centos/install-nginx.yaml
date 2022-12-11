@@ -20,7 +20,5 @@
       - start nginx
 
   - name: Start nginx and enabled
-    systemd:
-      name: nginx
-      state: started
-      enabled: yes
+    shell: sudo systemctl enable nginx && sudo systemctl start nginx
+
