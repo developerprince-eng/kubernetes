@@ -11,14 +11,6 @@
     notify:
       - start nginx
 
-  - name: Start nginx web server
-    shell:
-      name: nginx
-      state: installed
-      update_cache: yes
-    notify:
-      - start nginx
-
   - name: Start nginx and enabled
     shell: sudo systemctl enable nginx && sudo systemctl start nginx
 
