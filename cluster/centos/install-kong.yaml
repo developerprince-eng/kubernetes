@@ -58,6 +58,12 @@
      shell: sudo ulimit -n 4096
 
    - name: Kong Migration
+     shell: kong kong migrations bootstrap -c /etc/kong/kong.conf
+     register: kong_status_bootstrap
+
+   - debug: msg="{{ kong_status_bootstrap.stdout }}"
+
+   - name: Kong Migration
      shell: kong migrations up -c /etc/kong/kong.conf
      register: kong_status_migration
 
