@@ -57,8 +57,8 @@
    - name: Set ulimit to 4096 temporarily
      shell: sudo ulimit -n 4096
 
-   - name: Kong Migration
-     shell: kong kong migrations bootstrap -c /etc/kong/kong.conf
+   - name: Kong bootstrap Database
+     shell: kong migrations bootstrap -c /etc/kong/kong.conf
      register: kong_status_bootstrap
 
    - debug: msg="{{ kong_status_bootstrap.stdout }}"
