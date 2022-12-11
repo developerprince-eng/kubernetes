@@ -40,10 +40,7 @@
      shell: kong roar
      register: kong_status
 
-   - name: Print out Kong Status
-     debug:
-       var: kong_status
-       verbosity: 2
+   - debug: msg="{{ kong_status.stdout }}"
 
    - name: Added Kong configuration
      copy:
@@ -64,10 +61,7 @@
      shell: kong migrations up -c /etc/kong/kong.conf
      register: kong_status_migration
 
-   - name: Print out Kong Migration
-     debug:
-       var: kong_status_migration
-       verbosity: 2
+   - debug: msg="{{ kong_status_migration.stdout }}"
 
    - name: Start Kong
      shell: kong start -c /etc/kong/kong.conf
