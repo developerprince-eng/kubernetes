@@ -34,10 +34,10 @@
        nobest: true
      become: yes
 
-    - name: Check Kong if installed succesfully
-      shell: kong roar
-      register: kong_status
-      debug:
+   - name: Check Kong if installed succesfully
+     shell: kong roar
+     register: kong_status
+     debug:
        var: kong_status
        verbosity: 2
 
@@ -53,6 +53,21 @@
           pg_password = "{{pg-kong-password}}"
           pg_database = kong
 
+   - name: Kong Migration
+     shell: sudo kong migrations up -c /etc/kong/kong.conf
+     register: kong_status_migration
+     debug:
+       var: kong_status_migration
+       verbosity: 2
+
+   - name: Set ulimit to 4096 temporarily
+     shell: sudo ulimit -n 4096
+
+   - name: Start Kong
+     shell: sudo kong start -c /etc/kong/kong.conf
+     debug:
+       msg:
+        - "Kong Has start we all ready to roll :)"
 
 
 
