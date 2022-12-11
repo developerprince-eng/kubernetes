@@ -25,4 +25,4 @@
       state: started
       enabled: yes
     become: yes
-    become_user: {{user}}
+    become_user: "{{user}}"
