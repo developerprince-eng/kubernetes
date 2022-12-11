@@ -37,6 +37,8 @@
    - name: Check Kong if installed succesfully
      shell: kong roar
      register: kong_status
+
+   - name: Print out Kong Status
      debug:
        var: kong_status
        verbosity: 2
@@ -56,6 +58,8 @@
    - name: Kong Migration
      shell: sudo kong migrations up -c /etc/kong/kong.conf
      register: kong_status_migration
+
+   - name: Print out Kong Migration
      debug:
        var: kong_status_migration
        verbosity: 2
@@ -65,6 +69,8 @@
 
    - name: Start Kong
      shell: sudo kong start -c /etc/kong/kong.conf
+
+   - name: Print out Success message
      debug:
        msg:
         - "Kong Has start we all ready to roll :)"
