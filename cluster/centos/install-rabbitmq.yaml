@@ -2,6 +2,8 @@
   become: yes
   vars:
       - user: "admin"
+      - rabbitmq_user: "admin"
+      - rabbitmq_password: "admin"
   tasks:
   - name: Add RabbitMQ Repository
     copy:
@@ -102,3 +104,9 @@
 
   - name: Enable RabbitMQ Dashboard
     shell: sudo rabbitmq-plugins enable rabbitmq_management
+
+  - name: Added user
+  shell: rabbitmqctl add_user {{rabbitmq_user}} {{rabbitmq_password}}
+
+  - name: Added user Role
+  shell: rabbitmqctl set_user_tags {{rabbitmq_user}} administrator
